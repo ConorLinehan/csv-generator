@@ -1,1 +1,19 @@
-{{outlet}}
+<div class="box">
+  <div class="columns">
+    {{!-- Fake Columns --}}
+    <div class="column">
+      <div class="box">
+        <ul>
+          {{#each fakeColumns as |column|}}
+            <li>Indication</li>
+          {{/each}}
+        </ul>
+        <a>Add new col</a>
+      </div>
+    </div>
+    {{!-- No. Rows and download --}}
+    <div class="column">
+      <button class="button is-primary">Download</button>
+    </div>
+  </div>
+</div>
