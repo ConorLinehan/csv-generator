@@ -1,0 +1,26 @@
+<div class="modal-card-head">
+  <div class="tabs">
+    <ul>
+      {{#each faker.results as |result|}}
+        <li class="{{if (eq result.firstObject activeGenerator.firstObject) 'is-active'}}">
+          <a {{action (action (mut activeGenerator)) result}}>
+            {{result.firstObject}} ({{result.lastObject.length}})
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+<section class="modal-card-body">
+  <div class="tile is-ancestor">
+    {{#each activeGenerator.lastObject as |generator|}}
+      <div class="tile is-2 is-parent">
+        <a class="tile is-child box">
+          <h2 class="title">{{generator.firstObject}}</h2>
+          <em class="subtitle">{{generator.lastObject}}</em>
+        </a>
+      </div>
+    {{/each}}
+  </div>
+</section>
+<div class="modal-card-foot"></div>

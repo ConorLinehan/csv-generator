@@ -23,19 +23,23 @@ export default Ember.Service.extend({
     }
   }).readOnly(),
 
-  cachedResults: {},
+  results: computed({
+    get() {
+      let keys = Object.keys(faker);
+      keys = keys.filter(key => (KEYS_TO_REJECT.indexOf(key) < 0));
+      keys = keys.sort();
+      return keys.map(key =>{
+        return [key, this._resultsForCategory(key)];
+      });
+    }
+  }),
 
   /*
   Returns an array of Tuples <Method Name, Sample Value> for a given category
   @param { String }
   @returns { Array }
    */
-  resultsForCategory(key) {
-
-    if (this.cachedResults[key]) {
-      return this.cachedResults[key];
-    }
-
+  _resultsForCategory(key) {
     let results = [];
     for (let method in faker[key]) {
       if (typeof faker[key][method] === 'function') {
@@ -46,10 +50,7 @@ export default Ember.Service.extend({
       }
     }
 
-    this.cachedResults[key] = results;
     return results;
   },
-
-
 
 });

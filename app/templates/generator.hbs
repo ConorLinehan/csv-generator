@@ -8,7 +8,9 @@
             <li>Indication</li>
           {{/each}}
         </ul>
-        <a>Add new col</a>
+        <a {{action (action (mut addGenerator)) true}}>
+          Add new col
+        </a>
       </div>
     </div>
     {{!-- No. Rows and download --}}
@@ -17,3 +19,14 @@
     </div>
   </div>
 </div>
+
+
+{{#if addGenerator}}
+  {{to-elsewhere
+    named="modal"
+    send=(hash
+    body=(component "generators-modal")
+    onOutsideClick=(action (mut addGenerator) false)
+    )
+  }}
+{{/if}}
