@@ -10,5 +10,12 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     this.set('activeGenerator', this.get('faker.results.firstObject'));
+  },
+
+  actions: {
+    selected(catergory, type) {
+      let path = `${catergory}.${type}`;
+      this.attrs.updatePath(path);
+    }
   }
 });

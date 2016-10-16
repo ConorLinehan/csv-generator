@@ -1,32 +1,56 @@
 <div class="box">
-  <div class="columns">
+  <div class="columns is-mobile">
     {{!-- Fake Columns --}}
     <div class="column">
       <div class="box">
         <ul>
-          {{#each fakeColumns as |column|}}
-            <li>Indication</li>
+          <li>
+            <div class="columns is-mobile">
+              <div class="column">
+                <span class="subtitle is-5">Column Name</span>
+              </div>
+              <div class="column">
+                <span class="subtitle is-5">Type</span>
+                <a class="add-generator button is-primary is-pulled-right" {{action 'addGenerator'}}>
+                  +
+                </a>
+              </div>
+            </div>
+          </li>
+          {{#each model as |generator|}}
+            <li class="generator">
+              <div class="columns is-mobile level">
+                <div class="column">
+                  {{input value=generator.name class="input name"}}
+                </div>
+                <div class="column">
+                  <a class="button change-type" {{action (action (mut activeGeneratorId)) generator.id}}>
+                    {{generator.generatorName}}
+                    <em>{{generator.generatorCategory}}</em>
+                  </a>
+                </div>
+                <div class="column is-1">
+                  <a class="button remove-generator is-danger" {{action (action 'removeGenerator') generator}}>
+                    x
+                  </a>
+                </div>
+              </div>
+            </li>
           {{/each}}
         </ul>
-        <a {{action (action (mut addGenerator)) true}}>
-          Add new col
-        </a>
       </div>
-    </div>
-    {{!-- No. Rows and download --}}
-    <div class="column">
-      <button class="button is-primary">Download</button>
     </div>
   </div>
 </div>
 
 
-{{#if addGenerator}}
+{{#if activeGeneratorId}}
   {{to-elsewhere
     named="modal"
     send=(hash
-    body=(component "generators-modal")
-    onOutsideClick=(action (mut addGenerator) false)
-    )
+    body=(component
+      "generators-modal"
+      updatePath=(pipe-action (action (mut activeGenerator.fakerPath)) (action (mut activeGeneratorId) null)))
+    onOutsideClick=(action (mut activeGeneratorId) null))
   }}
 {{/if}}

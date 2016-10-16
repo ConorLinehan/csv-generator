@@ -1,14 +1,29 @@
 import Ember from 'ember';
-import faker from 'npm:faker';
+
+const {
+  computed
+} = Ember;
 
 export default Ember.Controller.extend({
-  queryParams: ['addGenerator'],
-  addGenerator: false,
+  queryParams: ['activeGeneratorId'],
+  activeGeneratorId: null,
 
-  fakeColumns: [],
+  activeGenerator: computed('activeGeneratorId', {
+    get() {
+      return this.get('store').peekRecord('generator', this.get('activeGeneratorId'));
+    }
+  }),
 
-  init() {
-    this._super(...arguments);
-    console.log(faker);
+  actions: {
+    addGenerator() {
+      let genCount = this.get('model.length') + 1;
+      this.get('store').createRecord('generator', {
+        name: `Col ${genCount}`
+      }).save();
+    },
+
+    removeGenerator(generator) {
+      generator.destroyRecord();
+    }
   }
 });

@@ -1,8 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-
-  resetController(controller) {
-    controller.set('fakeColumns', []);
+  model() {
+    return this.get('store').findAll('generator');
   }
 });

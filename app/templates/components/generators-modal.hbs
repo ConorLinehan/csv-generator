@@ -12,10 +12,10 @@
   </div>
 </div>
 <section class="modal-card-body">
-  <div class="tile is-ancestor">
+  <div class="columns is-multiline">
     {{#each activeGenerator.lastObject as |generator|}}
-      <div class="tile is-2 is-parent">
-        <a class="tile is-child box">
+      <div class="column is-half">
+        <a class="box generator-type" {{action (action 'selected') activeGenerator.firstObject generator.firstObject}}>
           <h2 class="title">{{generator.firstObject}}</h2>
           <em class="subtitle">{{generator.lastObject}}</em>
         </a>
