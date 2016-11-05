@@ -1,4 +1,14 @@
 <div class="box">
+  <div class="columns">
+    <div class="column">
+      <p class="control has-addons">
+        {{input type="number" value=rowCount}}
+        <a class="button" {{action generateCSV rowCount}}>
+          Generate
+        </a>
+      </p>
+    </div>
+  </div>
   <div class="columns is-mobile">
     {{!-- Fake Columns --}}
     <div class="column">

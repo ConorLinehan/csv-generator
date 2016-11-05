@@ -44,7 +44,7 @@ export default Ember.Service.extend({
     for (let method in faker[key]) {
       if (typeof faker[key][method] === 'function') {
         let sampleVal = faker[key][method]();
-        if (typeof sampleVal === 'string') {
+        if (typeof sampleVal === 'string' || typeof sampleVal === 'number') {
           results.push([method, sampleVal]);
         }
       }
