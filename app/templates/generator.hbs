@@ -21,7 +21,13 @@
             <li class="generator">
               <div class="columns is-mobile level">
                 <div class="column">
-                  {{input value=generator.name class="input name"}}
+                  <input
+                  type="text"
+                  name="name"
+                  value={{generator.name}}
+                  class="input name"
+                  oninput={{action (pipe (action (mut generator.name)) (perform saveGeneratorTask generator)) value="target.value"}}
+                  >
                 </div>
                 <div class="column">
                   <a class="button change-type" {{action (action (mut activeGeneratorId)) generator.id}}>
@@ -50,7 +56,7 @@
     send=(hash
     body=(component
       "generators-modal"
-      updatePath=(pipe-action (action (mut activeGenerator.fakerPath)) (action (mut activeGeneratorId) null)))
+      updatePath=(pipe-action (action (mut activeGenerator.fakerPath)) (perform saveGeneratorTask activeGenerator) (action (mut activeGeneratorId) null)))
     onOutsideClick=(action (mut activeGeneratorId) null))
   }}
 {{/if}}

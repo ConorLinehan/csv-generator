@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { task, timeout } from 'ember-concurrency';
 
 const {
   computed
@@ -7,6 +8,11 @@ const {
 export default Ember.Controller.extend({
   queryParams: ['activeGeneratorId'],
   activeGeneratorId: null,
+
+  saveGeneratorTask: task(function *(generator) {
+    yield timeout(125);
+    yield generator.save();
+  }).enqueue(),
 
   activeGenerator: computed('activeGeneratorId', {
     get() {
