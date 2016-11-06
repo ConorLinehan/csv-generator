@@ -17,30 +17,70 @@ export default Ember.Controller.extend({
     yield generator.save();
   }).enqueue(),
 
+  generateCSVTask: task(function *(rows) {
+    let csvArray = yield this.get('_generateCSVStringTask').perform(rows);
+    let csvString = PapaParse.unparse(csvArray);
+    csvSave.save(csvString, 'data.csv');
+  }).drop(),
+
+  /*
+  Chunks in csv string
+  @params { Number }
+  @returns { Promise }
+   */
+  _generateCSVStringTask: task(function *(rows) {
+    let headers = this.get('headers');
+    let array = [headers];
+
+    // Stores functions in array to avoid lookups in loop
+    let generatorFuncs = this.get('generatorFuncs');
+
+    let generatorFuncsLength = generatorFuncs.length;
+
+    for (let i = rows; i--;) {
+      if (i % 100 === 0) {
+        yield timeout(20);
+      }
+
+      let row = [];
+      for (let i = 0; i < generatorFuncsLength; i++) {
+        row[i] = generatorFuncs[i]();
+      }
+      array.push(row);
+    }
+
+    return array;
+  }),
+
+  // CP's
+
+  generators: computed.alias('model'),
+
+  /*
+  Returns generator from queryParams
+  @returns { DS.Model }
+   */
   activeGenerator: computed('activeGeneratorId', {
     get() {
       return this.get('store').peekRecord('generator', this.get('activeGeneratorId'));
     }
   }),
 
-  generateCSV(rows) {
-    let csvString = this._generateCSVString(rows);
-    csvSave(csvString, 'name.csv');
-  },
-
-  _generateCSVString(rows) {
-    let array = [];
-    let generators = this.get('store').peekAll('generator');
-    for (let i = 0; i < rows; i++) {
-      let row = generators.map(g =>{
+  /*
+  Returns faker methods from generator paths
+  @returns { Array }
+   */
+  generatorFuncs: computed('generators.[]', {
+    get() {
+      return this.get('generators')
+      .map(g =>{
         let path = g.get('fakerPath').split('.');
-        return faker[path[0]][path[1]]();
+        return faker[path[0]][path[1]];
       });
-      array.push(row);
     }
+  }),
 
-    return PapaParse.unparse(array);
-  },
+  headers: computed.mapBy('generators.[]', 'name'),
 
   actions: {
     addGenerator() {

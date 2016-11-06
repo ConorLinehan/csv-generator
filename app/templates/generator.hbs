@@ -3,7 +3,9 @@
     <div class="column">
       <p class="control has-addons">
         {{input type="number" value=rowCount}}
-        <a class="button" {{action generateCSV rowCount}}>
+        <a class="button is-primary {{if generateCSVTask.isRunning 'is-loading'}}"
+         {{action (perform generateCSVTask rowCount)}}
+         >
           Generate
         </a>
       </p>

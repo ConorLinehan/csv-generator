@@ -1,4 +1,4 @@
-export default function csvSave(string, name) {
+function save(string, name) {
   let data = new Blob([string], { type: 'text/csv; charset=utf-8;'});
   if (navigator.msSaveBlob) {
       window.navigator.msSaveBlob(data, name);
@@ -11,3 +11,7 @@ export default function csvSave(string, name) {
       document.body.removeChild(link);
   }
 }
+
+export default {
+  save: save
+};
