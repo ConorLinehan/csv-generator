@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'csv-generator-post',
+    modulePrefix: 'csv-generator',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',

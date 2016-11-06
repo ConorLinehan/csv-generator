@@ -1,4 +1,4 @@
-import csvSave from 'csv-generator-post/utils/csv-save';
+import csvSave from 'csv-generator/utils/csv-save';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | csv save');

@@ -2,7 +2,7 @@ import { moduleFor } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import Ember from 'ember';
 import { timeout } from 'ember-concurrency';
-import csvSave from 'csv-generator-post/utils/csv-save';
+import csvSave from 'csv-generator/utils/csv-save';
 import PapaParse from 'npm:papaparse';
 import faker from 'npm:faker';
 import wait from 'ember-test-helpers/wait';

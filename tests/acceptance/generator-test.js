@@ -1,5 +1,5 @@
 import { test } from 'qunit';
-import moduleForAcceptance from 'csv-generator-post/tests/helpers/module-for-acceptance';
+import moduleForAcceptance from 'csv-generator/tests/helpers/module-for-acceptance';
 import page from '../pages/generator';
 import Ember from 'ember';
 

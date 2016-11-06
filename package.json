@@ -1,7 +1,7 @@
 {
-  "name": "csv-generator-post",
+  "name": "csv-generator",
   "version": "0.0.0",
-  "description": "Small description for csv-generator-post goes here",
+  "description": "Small description for csv-generator goes here",
   "private": true,
   "directories": {
     "doc": "doc",

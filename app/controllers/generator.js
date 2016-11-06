@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
-import csvSave from 'csv-generator-post/utils/csv-save';
+import csvSave from 'csv-generator/utils/csv-save';
 import faker from 'npm:faker';
 import PapaParse from 'npm:papaparse';
 
