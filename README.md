@@ -1,7 +1,8 @@
 # Csv-generator
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This app allows the user to generate fake-csv data client-side.
+
+The data is sourced from [faker](https://github.com/marak/Faker.js/)
 
 ## Prerequisites
 
@@ -51,3 +52,5 @@ Specify what it takes to deploy your app.
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+## TODO
+- [ ] Move data generation to worker thread
