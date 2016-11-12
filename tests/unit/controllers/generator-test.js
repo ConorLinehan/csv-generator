@@ -23,6 +23,7 @@ moduleFor('controller:generator', 'Unit | Controller | generator', {
 
   afterEach() {
     faker['myTest'] = undefined;
+    delete faker['myTest'];
   }
 });
 

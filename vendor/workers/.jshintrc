@@ -1,0 +1,7 @@
+{
+  "predef": [
+    "Papa",
+    "faker"
+  ],
+  "worker": true
+}
