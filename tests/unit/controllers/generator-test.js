@@ -1,8 +1,10 @@
+/* global Blob */
+
 import { moduleFor } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import Ember from 'ember';
 import { timeout } from 'ember-concurrency';
-import csvSave from 'csv-generator/utils/csv-save';
+import fileSaver from 'npm:file-saver';
 import PapaParse from 'npm:papaparse';
 import faker from 'npm:faker';
 import wait from 'ember-test-helpers/wait';
@@ -31,7 +33,7 @@ test('generateCSVTask', function(assert) {
   let controller = this.subject();
   let generateCSVTaskStub = this.stub(controller.get('_generateCSVStringTask'), 'perform')
   .returns(RSVP.Promise.resolve(['csv']));
-  let csvSaveStub = this.stub(csvSave, 'save');
+  let saveStub = this.stub(controller, '_saveCSV');
   let unparseStub = this.stub(PapaParse, 'unparse').returns('my-csv');
 
   return run(() =>{
@@ -41,7 +43,7 @@ test('generateCSVTask', function(assert) {
     .then(() =>{
       assert.ok(generateCSVTaskStub.calledWithExactly(10));
       assert.ok(unparseStub.calledWithExactly(['csv']));
-      assert.ok(csvSaveStub.calledWithExactly('my-csv', 'data.csv'));
+      assert.ok(saveStub.calledWithExactly('my-csv'));
     });
   });
 }),
@@ -104,6 +106,18 @@ test('header', function(assert) {
 
   let secondResult = controller.get('headers');
   assert.deepEqual(secondResult, ['new name', 'Col 2', 'Col 3']);
+});
+
+test('_saveCSV', function(assert) {
+  let controller = this.subject();
+  let saveAsStub = this.stub(fileSaver, 'saveAs');
+
+  controller._saveCSV('my-csv');
+  assert.ok(saveAsStub.calledOnce);
+  let expectedBlob = new Blob(['my-csv'], {
+    type: "text/csv; charset=utf-8"
+  });
+  assert.ok(saveAsStub.calledWithExactly(expectedBlob, 'data.csv'));
 });
 
 test('_generateCSVStringTask: it throttles task', function(assert) {

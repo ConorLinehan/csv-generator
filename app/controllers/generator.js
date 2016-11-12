@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
-import csvSave from 'csv-generator/utils/csv-save';
+import fileSaver from 'npm:file-saver';
 import faker from 'npm:faker';
 import PapaParse from 'npm:papaparse';
 
@@ -20,8 +20,19 @@ export default Ember.Controller.extend({
   generateCSVTask: task(function *(rows) {
     let csvArray = yield this.get('_generateCSVStringTask').perform(rows);
     let csvString = PapaParse.unparse(csvArray);
-    csvSave.save(csvString, 'data.csv');
+    this._saveCSV(csvString);
   }).drop(),
+
+  /*
+    Saves csvString
+    @params { String }
+   */
+  _saveCSV(csvString) {
+    let blob = new Blob([csvString], {
+        type: "text/csv; charset=utf-8;"
+    });
+    fileSaver.saveAs(blob, 'data.csv');
+  },
 
   /*
   Chunks in csv string
