@@ -3,8 +3,8 @@
     <div class="column">
       <p class="control has-addons">
         {{input type="number" value=rowCount}}
-        <a class="button is-primary {{if generateCSVTask.isRunning 'is-loading'}}"
-         {{action (perform generateCSVTask rowCount)}}
+        <a class="button is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
+         {{action 'generate'}}
          >
           Generate
         </a>

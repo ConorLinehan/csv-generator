@@ -17,12 +17,13 @@ test('it generates fake data', function(assert) {
 
   worker.addEventListener('error', (e) =>{
     console.error(e);
+    assert.ok(false);
     done();
   });
 
   let data = {
     rows: 10,
-    paths: ['random.number', 'name.firstName']
+    paths: [ [['random'], ['number']], [['name'], ['firstName']] ]
   };
 
   worker.postMessage(data);

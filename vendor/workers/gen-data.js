@@ -1,4 +1,3 @@
-
 importScripts('/assets/faker.js');
 importScripts('/assets/papaparse.js');
 
@@ -16,12 +15,14 @@ function generateData(paths, rows, headers) {
     arr[i] = row;
   }
 
+  if (headers) {
+    arr = [headers].concat(arr);
+  }
   return arr;
 }
 
 function buildGeneratorFunctions(paths) {
-  return paths.map(function(pathString) {
-    var path = pathString.split('.');
+  return paths.map(function(path) {
     return faker[path[0]][path[1]];
   });
 }
