@@ -154,7 +154,7 @@ test('_workerTask', function(assert) {
     rows: 200,
     shouldIncludeHeaders: true,
   });
-  service.reopen({ headers: ['col1', 'col2'] })
+  service.reopen({ headers: ['col1', 'col2'] });
 
   let fakeWorker = {postMessage(){}, addEventListener(){}};
   let postMessageSpy = this.spy(fakeWorker, 'postMessage');
