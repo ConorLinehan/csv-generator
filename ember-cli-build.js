@@ -4,6 +4,10 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
+    nodeModulesToVendor: [
+      'node_modules/faker/build/build/locales/en',
+      'node_modules/papaparse'
+    ]
     // Add options here
   });
 
@@ -21,6 +25,9 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   app.import('bower_components/bulma/css/bulma.css');
+  app.import('vendor/workers/gen-data.js', { outputFile: '/assets/gen-data.js'});
+  app.import('vendor/papaparse.min.js', { outputFile: '/assets/papaparse.js' });
+  app.import('vendor/faker.en.js', { outputFile: '/assets/faker.js'});
 
   return app.toTree();
 };
