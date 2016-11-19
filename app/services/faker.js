@@ -9,20 +9,10 @@ const KEYS_TO_REJECT = ['locale', 'locales', 'localeFallback', 'definitions', 'f
 
 export default Ember.Service.extend({
 
-  /*
-  Returns categories available to be faked from faker
-  @returns { Array }
+  /**
+   * Returns faker namespaced results
+   * @type { Array }
    */
-  categories: computed({
-    get() {
-      console.log(faker);
-      let keys = Object.keys(faker);
-      // Removes un-needed keys
-      keys = keys.filter(key => (KEYS_TO_REJECT.indexOf(key) < 0));
-      return keys.sort();
-    }
-  }).readOnly(),
-
   results: computed({
     get() {
       let keys = Object.keys(faker);

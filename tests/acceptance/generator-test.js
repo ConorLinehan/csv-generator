@@ -27,13 +27,6 @@ const fetchGenerator = id => {
   return JSON.parse(window.localStorage.getItem(`${id}`));
 };
 
-const fetchAllGenerators = () =>{
-  let indexArray = JSON.parse(window.localStorage.getItem('index-generators'));
-  return indexArray.map(id =>{
-    return fetchGenerator(id);
-  });
-};
-
 moduleForAcceptance('Acceptance | generator', {
   afterEach() {
     window.localStorage.clear();

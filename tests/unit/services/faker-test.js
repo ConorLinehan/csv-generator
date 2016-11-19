@@ -8,27 +8,19 @@ const EXPECTED_CATEGORIES = [
   'random', 'system'
 ];
 
-moduleFor('service:faker', 'Unit | Service | faker', {
-  // Specify the other units that are required for this test.
-  // needs: ['service:foo']
-});
+moduleFor('service:faker', 'Unit | Service | faker');
 
 // Replace this with your real tests.
-test('it computes categories', function(assert) {
+test('it computes results', function(assert) {
   let service = this.subject();
 
-  let result = service.get('categories');
-  assert.deepEqual(result, EXPECTED_CATEGORIES, 'returns correct categories');
+  let result = service.get('results');
+  assert.deepEqual(result.map(r => r[0]), EXPECTED_CATEGORIES, 'returns correct categories');
 });
 
 test('it computes results for a category', function(assert) {
   let service = this.subject();
 
-  let result = service.resultsForCategory('address');
+  let result = service._resultsForCategory('address');
   assert.deepEqual(result.length, 16);
-
-  assert.deepEqual(result, service.cachedResults['address'], 'caches results');
-
-  service.cachedResults['address'] = ['fake cache'];
-  assert.deepEqual(service.resultsForCategory('address'), ['fake cache'], 'fetches from cache');
 });
