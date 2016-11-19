@@ -3,13 +3,26 @@ import {
   visitable,
   clickable,
   collection,
-  fillable
+  fillable,
+  hasClass,
+  text
 } from 'ember-cli-page-object';
 
 const generatorModal = {
   scope: '.modal-card',
+  tabs: collection({
+    itemScope: '.tabs li',
+    item: {
+      click: clickable('a'),
+      isActive: hasClass('is-active')
+    }
+  }),
   types: collection({
-    itemScope: 'a.generator-type'
+    itemScope: 'a.generator-type',
+    item: {
+      type: text('h2'),
+      example: text('em')
+    }
   })
 };
 
