@@ -252,3 +252,9 @@ test('generateTask', function(assert) {
     });
   });
 });
+
+test('it setups worker on init', function(assert) {
+  let service = this.subject();
+
+  assert.ok(service.get('cachedWorker'));
+});

@@ -111,7 +111,23 @@ export default Ember.Service.extend({
    * @return { Worker }
    */
   _createWorker() {
-    return new Worker('/assets/gen-data.js');
+    let cachedWorker = this.get('cachedWorker');
+    if (cachedWorker) {
+      return cachedWorker;
+    } else {
+
+      let worker = new Worker('/assets/gen-data.js');
+      this.set('cachedWorker', worker);
+      return worker;
+    }
+  },
+
+  /**
+   * Setup worker on init
+   */
+  init() {
+    this._super(...arguments);
+    this._createWorker();
   },
 
   // CPS
