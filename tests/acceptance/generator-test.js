@@ -2,6 +2,8 @@ import { test } from 'qunit';
 import moduleForAcceptance from 'csv-generator/tests/helpers/module-for-acceptance';
 import page from '../pages/generator';
 import Ember from 'ember';
+import sinon from 'sinon';
+import fileSaver  from 'npm:file-saver';
 
 const {
   run,
@@ -89,5 +91,24 @@ test('it can edit a generator', function(assert) {
       assert.equal(generator.attributes.name, 'new name', 'changed name');
       assert.equal(generator.attributes['faker-path'], 'address.city', 'changed type');
     });
+  });
+});
+
+test('it can generate csv', function(assert) {
+  let store = this.application.__container__.lookup('service:store');
+  run(() =>{
+    genFakeData(3, store);
+  });
+
+  let sandbox = sinon.sandbox.create();
+  let fileSaveStub = sandbox.stub(fileSaver, 'saveAs');
+
+  page.visit();
+  page.createControl.fillInput(100);
+  page.createControl.create();
+
+  andThen(() =>{
+    assert.ok(fileSaveStub.calledOnce);
+    sandbox.restore();
   });
 });

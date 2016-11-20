@@ -1,7 +1,8 @@
+
 <div class="box">
   <div class="columns">
     <div class="column">
-      <p class="control has-addons">
+      <p class="control row-count has-addons">
         {{input type="number" value=rowCount}}
         <a class="button is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
          {{action 'generate'}}

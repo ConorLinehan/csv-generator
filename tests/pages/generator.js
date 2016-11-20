@@ -41,5 +41,11 @@ export default create({
       triggerPathChange: clickable('a.change-type'),
       name: fillable('input.name')
     }
-  })
+  }),
+  createControl: {
+    scope: 'p.row-count',
+    fillInput: fillable('input'),
+    create: clickable('a'),
+    isLoading: hasClass('is-loading', 'a')
+  }
 });
