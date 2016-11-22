@@ -63,9 +63,9 @@ export default Ember.Service.extend({
     }
 
     // Stores functions in array to avoid lookups in loop
-    let generatorFuncs = this.get('generatorFuncs');
+    let paths = this.get('generatorPaths');
     let rows = this.get('rows');
-    let generatorFuncsLength = generatorFuncs.length;
+    let pathsLength = paths.length;
 
     for (let i = rows; i--;) {
       if (i % 100 === 0) {
@@ -73,8 +73,8 @@ export default Ember.Service.extend({
       }
 
       let row = [];
-      for (let i = 0; i < generatorFuncsLength; i++) {
-        row[i] = generatorFuncs[i]();
+      for (let i = 0; i < pathsLength; i++) {
+        row[i] = faker[paths[i][0]][paths[i][1]]();
       }
       array.push(row);
     }
@@ -132,18 +132,6 @@ export default Ember.Service.extend({
 
   // CPS
   headers: computed.mapBy('generators.[]', 'name'),
-
-  /**
-   *Returns faker methods from generator paths
-   * @type { Array }
-   */
-  generatorFuncs: computed('generatorPaths.[]', {
-    get() {
-      return this.get('generatorPaths').map(path =>{
-        return faker[path[0]][path[1]];
-      });
-    }
-  }),
 
   /**
    * Paths for generators

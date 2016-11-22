@@ -14,9 +14,9 @@ const {
 moduleFor('service:generation-interface', 'Unit | Service | generation-interface', {
   beforeEach() {
     faker['myTest'] = {
-      foo: ()=>{},
-      bar: ()=>{},
-      baz: ()=>{}
+      foo: ()=>{ return 'foo';},
+      bar: ()=>{ return 'bar';},
+      baz: ()=>{ return 'baz';}
     };
   },
 
@@ -27,30 +27,6 @@ moduleFor('service:generation-interface', 'Unit | Service | generation-interface
 });
 
 // Session Model - Tests
-test('generatorFuncs', function(assert) {
-  let generators = [
-    Ember.Object.create({fakerPath: 'myTest.foo'}),
-    Ember.Object.create({fakerPath: 'myTest.bar'}),
-    Ember.Object.create({fakerPath: 'myTest.baz'}),
-  ];
-
-  let service = this.subject({
-    generators: generators
-  });
-
-  let expected = [
-    faker.myTest.foo,
-    faker.myTest.bar,
-    faker.myTest.baz
-  ];
-  let funcs = service.get('generatorFuncs');
-  assert.deepEqual(funcs, expected, 'creates expected funcs array');
-
-  service.set('generators', generators.slice(0, 1));
-  let updatedFuncs = service.get('generatorFuncs');
-  assert.deepEqual(updatedFuncs, [faker.myTest.foo], 'updates funcs');
-});
-
 test('header', function(assert) {
   let generators = [
     Ember.Object.create({name: 'Col 1'}),
@@ -84,13 +60,13 @@ test('shouldUseWorker', function(assert) {
 });
 
 test('_chunkTask: it throttles task', function(assert) {
-  let functions = [
-    () =>{},
-    () =>{},
-    () =>{}
+  let generators = [
+    Ember.Object.create({fakerPath: 'myTest.foo'}),
+    Ember.Object.create({fakerPath: 'myTest.bar'}),
+    Ember.Object.create({fakerPath: 'myTest.baz'}),
   ];
   let model = this.subject({
-    generatorFuncs: functions,
+    generators: generators,
     rows: 500
   });
 
@@ -108,16 +84,36 @@ test('_chunkTask: it throttles task', function(assert) {
   });
 });
 
+test('generatorPaths', function(assert) {
+  let generators = [
+    Ember.Object.create({fakerPath: 'myTest.foo'}),
+    Ember.Object.create({fakerPath: 'myTest.bar'}),
+    Ember.Object.create({fakerPath: 'myTest.baz'}),
+  ];
+
+  let model = this.subject({
+    generators: generators
+  });
+
+  assert.deepEqual(model.get('generatorPaths'), [
+    ['myTest', 'foo'], ['myTest', 'bar'], ['myTest', 'baz']
+  ]);
+});
+
 test('_chunkTask: it returns csvString', function(assert) {
 
   let sandbox = sinon.sandbox.create();
 
-  let functions = [sinon.stub().returns('a'), sinon.stub().returns('b')];
-  let [_firstSpy, _secondSpy] = functions;
+  let _firstSpy = sandbox.spy(faker.myTest, 'bar');
+  let _secondSpy = sandbox.spy(faker.myTest, 'baz');
+  let generators = [
+    Ember.Object.create({fakerPath: 'myTest.bar'}),
+    Ember.Object.create({fakerPath: 'myTest.baz'}),
+  ];
   let unparseStub = sandbox.stub(Papa, 'unparse').returns('my-csv');
 
   let service = this.subject({
-    generatorFuncs: functions,
+    generators,
     rows: 10,
     shouldIncludeHeaders: true,
   });
@@ -139,7 +135,7 @@ test('_chunkTask: it returns csvString', function(assert) {
       .then(() =>{
         let _unparseArray = unparseStub.secondCall.args[0];
         assert.equal(_unparseArray.length, 10, 'returns correct length for no headers');
-        assert.deepEqual(_unparseArray[0], ['a', 'b']);
+        assert.deepEqual(_unparseArray[0], ['bar', 'baz']);
 
         sandbox.restore();
       });
