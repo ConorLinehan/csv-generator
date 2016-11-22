@@ -5,7 +5,7 @@ moduleFor('route:generator', 'Unit | Route | generator', {
   // needs: ['controller:foo']
 });
 
-test('it exists', function(assert) {
+test('_seedIntialValues', function(assert) {
   let route = this.subject();
   assert.ok(route);
 });
