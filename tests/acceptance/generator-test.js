@@ -38,10 +38,12 @@ moduleForAcceptance('Acceptance | generator', {
 test('it can add a generator', function(assert) {
   page.visit();
 
-  page.addGenerator();
   andThen(() =>{
-    // assert.equal(fetchAllGenerators().length, 1, 'added generator to local storage');
-    assert.equal(page.generators().count, 1, 'added generator');
+    page.addGenerator();
+    andThen(() =>{
+      // assert.equal(fetchAllGenerators().length, 1, 'added generator to local storage');
+      assert.equal(page.generators().count, 5, 'added generator');
+    });
   });
 });
 
@@ -56,6 +58,13 @@ test('it can remove a generator', function(assert) {
   andThen(() =>{
     // assert.equal(fetchAllGenerators().length, 0, 'removed generator from local storage');
     assert.equal(page.generators().count, 0, 'removed generator');
+  });
+});
+
+test('it seeds intial values', function(assert) {
+  page.visit();
+  andThen(() =>{
+    assert.equal(page.generators().count, 4);
   });
 });
 
