@@ -16,8 +16,8 @@ export default Ember.Route.extend({
         return generators;
       } else {
         return this.get('_seedIntialValuesTask').perform()
-        .then(seededValues =>{
-          return seededValues;
+        .then(() =>{
+          return this.get('store').findAll('generator');
         });
       }
     });
