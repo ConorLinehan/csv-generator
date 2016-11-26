@@ -1,11 +1,11 @@
 import Ember from 'ember';
-
-const {
-  RSVP
-} = Ember;
+import { task, all } from 'ember-concurrency';
 
 const SEED_VALUES = [
-
+  ['id', 'random.number'],
+  ['first_name', 'name.firstName'],
+  ['last_name', 'name.lastName'],
+  ['ip_address', 'internet.ip']
 ];
 
 export default Ember.Route.extend({
@@ -15,7 +15,7 @@ export default Ember.Route.extend({
       if (generators.get('length') > 0) {
         return generators;
       } else {
-        return this._seedIntialValues()
+        return this.get('_seedIntialValuesTask').perform()
         .then(seededValues =>{
           return seededValues;
         });
@@ -23,11 +23,16 @@ export default Ember.Route.extend({
     });
   },
 
-  _seedIntialValues() {
-    return new RSVP.Promise(resolve =>{
-      resolve([]);
+  _seedIntialValuesTask: task(function *() {
+    let tasks = SEED_VALUES.map(valueTuple =>{
+      let [name, path] = valueTuple;
+      return this.get('store').createRecord('generator', {
+        name: name,
+        fakerPath: path
+      }).save();
     });
-  },
+    return yield all(tasks);
+  }),
 
   setupController(controller) {
     this._super(...arguments);
