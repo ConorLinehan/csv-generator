@@ -1,1 +1,27 @@
-{{outlet}}
+{{!-- Add --}}
+<a class="icon" {{action 'addCollection'}}>
+  {{fa-icon "plus-square"}}
+</a>
+<hr>
+
+{{!-- Collections --}}
+<div class="container">
+  <div class="columns is-multiline">
+    {{#each model as |collection|}}
+      <div class="column is-one-quarter">
+        <a class="box">
+          <h1 class="title">{{collection.name}}</h1>
+        </a>
+      </div>
+    {{/each}}
+    {{!-- Add Collection --}}
+    <div class="column is-one-quarter">
+      <button class="button is-primary">
+        <h1 class="title">New</h1>
+        <span class="icon is-large">
+          {{fa-icon "plus-square"}}
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
