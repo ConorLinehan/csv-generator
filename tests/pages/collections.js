@@ -14,7 +14,8 @@ export default create({
   collections: collection({
     itemScope: 'a.collection-item',
     item: {
-      name: text('h1')
+      name: text('h1'),
+      delete: clickable('a.delete-collection')
     }
   })
 });
