@@ -1,7 +1,16 @@
 {{!-- Add --}}
-<a class="icon" {{action 'addCollection'}}>
-  {{fa-icon "plus-square"}}
-</a>
+<div class="level">
+  <div class="level-left">
+    <div class="level-item is-pulled-left">
+      <h1 class="title">Collections</h1>
+    </div>
+    <div class="level-item is-pulled-left">
+      <a class="icon new-collection" {{action 'addCollection'}}>
+        {{fa-icon "plus"}}
+      </a>
+    </div>
+  </div>
+</div>
 <hr>
 
 {{!-- Collections --}}
@@ -9,19 +18,13 @@
   <div class="columns is-multiline">
     {{#each model as |collection|}}
       <div class="column is-one-quarter">
-        <a class="box">
+        <a class="box collection">
+          <a class="is-danger icon is-small">
+            {{fa-icon "remove"}}
+          </a>
           <h1 class="title">{{collection.name}}</h1>
         </a>
       </div>
     {{/each}}
-    {{!-- Add Collection --}}
-    <div class="column is-one-quarter">
-      <button class="button is-primary">
-        <h1 class="title">New</h1>
-        <span class="icon is-large">
-          {{fa-icon "plus-square"}}
-        </span>
-      </button>
-    </div>
   </div>
 </div>

@@ -28,18 +28,20 @@ export default Ember.Route.extend({
   },
 
   _seedIntialCollection: task(function *() {
+
+    let collection = yield this.get('store').createRecord('collection').save();
+
     let tasks = SEED_VALUES.map(valueTuple =>{
       let [name, path] = valueTuple;
       return this.get('store').createRecord('generator', {
         name: name,
-        fakerPath: path
+        fakerPath: path,
+        collection: collection
       }).save();
     });
-    let generators = yield all(tasks);
+    yield all(tasks);
 
-    return yield this.get('store').createRecord('collection', {
-      generators: generators
-    }).save();
+    return yield collection.save();
   }),
 
 });
