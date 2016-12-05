@@ -7,7 +7,12 @@ module.exports = function(defaults) {
     nodeModulesToVendor: [
       'node_modules/faker/build/build/locales/en',
       'node_modules/papaparse'
-    ]
+    ],
+    sassOptions: {
+      includePaths: [
+        'bower_components/bulma'
+      ]
+    }
     // Add options here
   });
 
@@ -24,7 +29,6 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  app.import('bower_components/bulma/css/bulma.css');
   app.import('vendor/workers/gen-data.js', { outputFile: '/assets/gen-data.js'});
   app.import('vendor/papaparse.min.js', { outputFile: '/assets/papaparse.js' });
   app.import('vendor/faker.en.js', { outputFile: '/assets/faker.js'});
