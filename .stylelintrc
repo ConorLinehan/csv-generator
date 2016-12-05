@@ -1,0 +1,7 @@
+{
+  "extends": "stylelint-config-concentric",
+  "plugins": [
+  "stylelint-declaration-use-variable",
+  "stylelint-scss"
+  ]
+}
