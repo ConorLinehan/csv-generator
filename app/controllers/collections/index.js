@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
     },
 
     deleteCollection(collection) {
-      collection.destoyRecord();
+      collection.destroyRecord();
     }
   }
 });

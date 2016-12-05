@@ -1,0 +1,15 @@
+.modal-card-body {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+main {
+  height: 100vh;
+}
+
+// Framework
+@import 'bulma';
+
+// Components
+@import 'components/collection_item';

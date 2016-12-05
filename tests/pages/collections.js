@@ -12,7 +12,7 @@ export default create({
   newCollection: clickable('a.new-collection'),
 
   collections: collection({
-    itemScope: 'a.collection',
+    itemScope: 'a.collection-item',
     item: {
       name: text('h1')
     }
