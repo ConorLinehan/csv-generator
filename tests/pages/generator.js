@@ -29,7 +29,7 @@ const generatorModal = {
 export { generatorModal };
 
 export default create({
-  visit: visitable('/'),
+  visit: visitable('/:collection_id'),
 
   generatorModal,
 
