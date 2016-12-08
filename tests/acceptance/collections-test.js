@@ -1,7 +1,9 @@
 import { test } from 'qunit';
 import moduleForAcceptance from 'csv-generator/tests/helpers/module-for-acceptance';
 import Ember from 'ember';
-import page from 'csv-generator/tests/pages/collections';
+import page from '../pages/collections';
+import generatorsPage from '../pages/generator';
+
 
 const {
   run
@@ -75,6 +77,9 @@ test('it seeds first collection', function(assert) {
   andThen(() =>{
     assert.equal(page.collections().count, 1);
 
-    // TODO: Go into generators
+    page.collections(0).click();
+    andThen(() =>{
+      assert.equal(generatorsPage.generators().count, 4);
+    });
   });
 });
