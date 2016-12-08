@@ -1,0 +1,30 @@
+{{!-- Add --}}
+<div class="level">
+  <div class="level-left">
+    <div class="level-item is-pulled-left">
+      <h1 class="title">Collections</h1>
+    </div>
+    <div class="level-item is-pulled-left">
+      <a class="icon new-collection" {{action (action "addCollection")}}>
+        {{fa-icon "plus"}}
+      </a>
+    </div>
+  </div>
+</div>
+<hr>
+
+{{!-- Collections --}}
+<div class="container">
+  <div class="columns is-multiline">
+    {{#each model as |collection|}}
+      <div class="column is-one-quarter">
+        {{#link-to "collections.show" collection.id class="box collection-item"}}
+          <a class="icon delete-collection" {{action (action "deleteCollection") collection}}>
+            {{fa-icon "remove"}}
+          </a>
+          <h1 class="title">{{collection.name}}</h1>
+        {{/link-to}}
+      </div>
+    {{/each}}
+  </div>
+</div>
