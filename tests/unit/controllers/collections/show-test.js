@@ -1,8 +1,10 @@
 import { moduleFor } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 
-
-moduleFor('controller:generator', 'Unit | Controller | generator');
+moduleFor('controller:collections/show', 'Unit | Controller | collections/show', {
+  // Specify the other units that are required for this test.
+  // needs: ['controller:foo']
+});
 
 test('activeGenerator', function(assert) {
   let controller = this.subject();

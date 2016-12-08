@@ -9,33 +9,38 @@ const SEED_VALUES = [
 ];
 
 export default Ember.Route.extend({
+
+  /**
+   * We seed an intial collection with generators if none found within store/localStorage
+   */
   model() {
-    return this.get('store').findAll('generator')
-    .then(generators =>{
-      if (generators.get('length') > 0) {
-        return generators;
+    return this.get('store').findAll('collection')
+    .then(collections =>{
+      if (collections.get('length') > 0) {
+        return collections;
       } else {
-        return this.get('_seedIntialValuesTask').perform()
+        return this.get('_seedIntialCollection').perform()
         .then(() =>{
-          return generators;
+          return collections;
         });
       }
     });
   },
 
-  _seedIntialValuesTask: task(function *() {
+  _seedIntialCollection: task(function *() {
+
+    let collection = yield this.get('store').createRecord('collection').save();
+
     let tasks = SEED_VALUES.map(valueTuple =>{
       let [name, path] = valueTuple;
       return this.get('store').createRecord('generator', {
         name: name,
-        fakerPath: path
+        fakerPath: path,
+        collection: collection
       }).save();
     });
+
     return yield all(tasks);
   }),
 
-  setupController(controller) {
-    this._super(...arguments);
-    controller.set('rowCount', 100);
-  }
 });

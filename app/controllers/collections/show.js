@@ -7,10 +7,15 @@ const {
 } = Ember;
 
 export default Ember.Controller.extend({
-  interface: service('generation-interface'),
-
   queryParams: ['activeGeneratorId'],
   activeGeneratorId: null,
+
+  interface: service('generation-interface'),
+
+  // CPS
+  collection: computed.alias('model'),
+  generators: computed.alias('collection.generators'),
+
 
   saveGeneratorTask: task(function *(generator) {
     yield timeout(125);
@@ -29,9 +34,10 @@ export default Ember.Controller.extend({
 
   actions: {
     addGenerator() {
-      let genCount = this.get('model.length') + 1;
+      let genCount = this.get('generators.length') + 1;
       this.get('store').createRecord('generator', {
-        name: `Col ${genCount}`
+        name: `Col ${genCount}`,
+        collection: this.get('collection')
       }).save();
     },
 
@@ -40,7 +46,7 @@ export default Ember.Controller.extend({
     },
 
     generate() {
-      let generators = this.get('model');
+      let generators = this.get('generators');
       let rows = this.get('rowCount');
       this.get('interface.generateTask').perform(generators, rows, true);
     }
