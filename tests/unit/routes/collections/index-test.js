@@ -20,7 +20,8 @@ moduleFor('route:collections/index', 'Unit | Route | collections/index', {
 test('_seedIntialCollection', function(assert) {
   let route = this.subject();
   let fakeGenerator = Ember.Object.create();
-  let fakeCollection = Ember.Object.create({ save(){} });
+  let savedCollection = {};
+  let fakeCollection = Ember.Object.create({ save(){ return RSVP.Promise.resolve(savedCollection) ;} });
 
   let createRecordStub = this.sandbox.stub(route.get('store'), 'createRecord')
   .returns({ save() { return RSVP.Promise.resolve(fakeGenerator); }});
@@ -30,21 +31,20 @@ test('_seedIntialCollection', function(assert) {
     return route.get('_seedIntialCollection').perform()
     .then(() =>{
       assert.equal(createRecordStub.callCount, 5);
-      assert.ok(createRecordStub.firstCall.calledWithExactly('generator', {
-        name: 'id', fakerPath: 'random.number',
-      }));
+
+      assert.ok(createRecordStub.firstCall.calledWithExactly('collection'));
+
       assert.ok(createRecordStub.secondCall.calledWithExactly('generator', {
-        name: 'first_name', fakerPath: 'name.firstName'
+        name: 'id', fakerPath: 'random.number', collection: savedCollection
       }));
       assert.ok(createRecordStub.thirdCall.calledWithExactly('generator', {
-        name: 'last_name', fakerPath: 'name.lastName'
+        name: 'first_name', fakerPath: 'name.firstName', collection: savedCollection
       }));
       assert.ok(createRecordStub.getCall(3).calledWithExactly('generator', {
-        name: 'ip_address', fakerPath: 'internet.ip'
+        name: 'last_name', fakerPath: 'name.lastName', collection: savedCollection
       }));
-
-      assert.ok(createRecordStub.getCall(4).calledWithExactly('collection', {
-        generators: [fakeGenerator, fakeGenerator, fakeGenerator, fakeGenerator]
+      assert.ok(createRecordStub.getCall(4).calledWithExactly('generator', {
+        name: 'ip_address', fakerPath: 'internet.ip', collection: savedCollection
       }));
     });
   });

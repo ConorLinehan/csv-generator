@@ -39,9 +39,8 @@ export default Ember.Route.extend({
         collection: collection
       }).save();
     });
-    yield all(tasks);
 
-    return yield collection.save();
+    return yield all(tasks);
   }),
 
 });

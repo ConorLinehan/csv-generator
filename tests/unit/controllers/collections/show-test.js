@@ -1,4 +1,5 @@
-import { moduleFor, test } from 'ember-qunit';
+import { moduleFor } from 'ember-qunit';
+import test from 'ember-sinon-qunit/test-support/test';
 
 moduleFor('controller:collections/show', 'Unit | Controller | collections/show', {
   // Specify the other units that are required for this test.
