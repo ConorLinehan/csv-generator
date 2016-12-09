@@ -1,0 +1,13 @@
+<header class="card-header">
+  <p class="card-header-title">
+    {{type}}
+  </p>
+  <a {{action (action "refresh") bubbles=false}} class="card-header-icon refresh">
+    {{fa-icon "refresh"}}
+  </a>
+</header>
+<div class="card-content">
+  {{#liquid-bind example use="fade" as |typeExample|}}
+    <h4 class="title is-4">{{typeExample}}</h4>
+  {{/liquid-bind}}
+</div>

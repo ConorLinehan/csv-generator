@@ -3,6 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import { generatorModal } from 'csv-generator/tests/pages/generator';
 import PageObject from 'ember-cli-page-object';
+import faker from 'npm:faker';
 
 const fakerService = Ember.Service.extend({
   results: [
@@ -18,11 +19,30 @@ moduleForComponent('generators-modal', 'Integration | Component | generators mod
   integration: true,
 
   beforeEach() {
+    faker.boo = {
+      name(){ return 'john'; },
+      job() { return 'painter'; }
+    };
+
+    faker.foo = {
+      number() { return 5; }
+    };
+
+    faker.baz = {
+      place() { return 'dublin'; },
+      animal() { return 'cat'; },
+      food() { return 'chips'; }
+    };
+
     page.setContext(this);
     this.register('service:faker', fakerService);
   },
 
   afterEach() {
+    delete faker.boo;
+    delete faker.foo;
+    delete faker.baz;
+
     page.removeContext();
   }
 });
