@@ -1,12 +1,19 @@
 import Ember from 'ember';
 import faker from 'npm:faker';
 
+const {
+  isBlank
+} = Ember;
+
 export default Ember.Component.extend({
   classNames: ['card'],
 
   didReceiveAttrs() {
     this._super(...arguments);
-    this._generateExample();
+    // If we're provided with intial example don't generate
+    if (isBlank(this.get('example'))) {
+      this._generateExample();
+    }
   },
 
   _generateExample() {

@@ -34,6 +34,12 @@ test('it shows intial state', function(assert) {
   assert.equal(page.example, 'My Example');
 });
 
+test('it doesn\'t generate example if intial is passed in', function(assert) {
+  page.render(hbs`{{example-card namespace="example" type="foo" example="baz"}}`);
+
+  assert.equal(page.example, 'baz', 'shows passed in example');
+});
+
 test('it can refresh example', function(assert) {
   let done = assert.async();
 

@@ -16,7 +16,7 @@
     {{#each activeGenerator.lastObject as |generator|}}
       <div class="column is-half">
         <a class=" generator-type" {{action (action 'selected') activeGenerator.firstObject generator.firstObject}}>
-          {{example-card namespace=activeGenerator.firstObject type=generator.firstObject}}
+          {{example-card namespace=activeGenerator.firstObject type=generator.firstObject example=generator.lastObject}}
         </a>
       </div>
     {{/each}}
