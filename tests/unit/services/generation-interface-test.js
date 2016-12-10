@@ -154,6 +154,7 @@ test('_workerTask', function(assert) {
 
   let fakeWorker = {postMessage(){}, addEventListener(){}};
   let postMessageSpy = this.spy(fakeWorker, 'postMessage');
+  let setSpy = this.spy(service, 'set');
   let addEventListenerSpy = this.spy(fakeWorker, 'addEventListener');
 
   let workerStub = this.stub(service, '_createWorker').returns(fakeWorker);
@@ -171,14 +172,23 @@ test('_workerTask', function(assert) {
       }), 'called postMessage with correct data');
       assert.equal(addEventListenerSpy.firstCall.args[0], 'message', 'sets up message listener');
       assert.equal(addEventListenerSpy.secondCall.args[0], 'error', 'sets up error listener');
+
+      // Call progress
+      addEventListenerSpy.firstCall.args[1]({
+        data: {
+          progress: 20
+        }
+      });
+
       // Call success
       addEventListenerSpy.firstCall.args[1]({
         data: {
-          myData: 'test'
+          result: 'test'
         }
       });
       return task.then(result =>{
-        assert.deepEqual(result, {myData: 'test'}, 'returns success from worker');
+        assert.deepEqual(result, 'test', 'returns success from worker');
+        assert.deepEqual(setSpy.firstCall.args, ['progress', 20]);
       });
     });
   });

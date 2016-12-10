@@ -99,7 +99,13 @@ export default Ember.Service.extend({
     worker.postMessage(data);
 
     let workerPromise = new RSVP.Promise((resolve, reject) =>{
-      worker.addEventListener('message', ({ data }) => resolve(data));
+      worker.addEventListener('message', ({ data }) => {
+        if (data.result) {
+          resolve(data.result);
+        } else if (data.progress) {
+          this.set('progress', data.progress);
+        }
+      });
       worker.addEventListener('error', (e) => reject(e));
     });
 
