@@ -15,9 +15,8 @@
   <div class="columns is-multiline">
     {{#each activeGenerator.lastObject as |generator|}}
       <div class="column is-half">
-        <a class="box generator-type" {{action (action 'selected') activeGenerator.firstObject generator.firstObject}}>
-          <h2 class="title">{{generator.firstObject}}</h2>
-          <em class="subtitle">{{generator.lastObject}}</em>
+        <a class=" generator-type" {{action (action 'selected') activeGenerator.firstObject generator.firstObject}}>
+          {{example-card namespace=activeGenerator.firstObject type=generator.firstObject example=generator.lastObject}}
         </a>
       </div>
     {{/each}}

@@ -20,8 +20,8 @@ const generatorModal = {
   types: collection({
     itemScope: 'a.generator-type',
     item: {
-      type: text('h2'),
-      example: text('em')
+      type: text('p'),
+      example: text('h4')
     }
   })
 };
