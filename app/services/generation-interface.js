@@ -67,8 +67,10 @@ export default Ember.Service.extend({
     let rows = this.get('rows');
     let pathsLength = paths.length;
 
-    for (let i = rows; i--;) {
+    for (let i = 0; i < rows; i++) {
       if (i % 100 === 0) {
+        let progress = (i / rows) * 100;
+        this.set('progress', progress);
         yield timeout(20);
       }
 
@@ -99,7 +101,13 @@ export default Ember.Service.extend({
     worker.postMessage(data);
 
     let workerPromise = new RSVP.Promise((resolve, reject) =>{
-      worker.addEventListener('message', ({ data }) => resolve(data));
+      worker.addEventListener('message', ({ data }) => {
+        if (data.result) {
+          resolve(data.result);
+        } else if (data.progress) {
+          this.set('progress', data.progress);
+        }
+      });
       worker.addEventListener('error', (e) => reject(e));
     });
 

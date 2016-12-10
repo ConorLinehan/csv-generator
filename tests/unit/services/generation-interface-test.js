@@ -59,7 +59,7 @@ test('shouldUseWorker', function(assert) {
   assert.notOk(model.get('shouldUseWorker'), 'returns false for below threshold');
 });
 
-test('_chunkTask: it throttles task', function(assert) {
+test('_chunkTask: it throttles task and sets progress', function(assert) {
   let generators = [
     Ember.Object.create({fakerPath: 'myTest.foo'}),
     Ember.Object.create({fakerPath: 'myTest.bar'}),
@@ -70,6 +70,8 @@ test('_chunkTask: it throttles task', function(assert) {
     rows: 500
   });
 
+  let setSpy = this.spy(model, 'set');
+
   return run(() =>{
     let task = model.get('_chunkTask').perform();
     // Should throttle generation to ~ 200ms
@@ -78,6 +80,13 @@ test('_chunkTask: it throttles task', function(assert) {
       assert.ok(task.get('isRunning'));
       return timeout(200)
       .then(() =>{
+        assert.equal(setSpy.callCount, 5);
+        assert.ok(setSpy.getCall(0).calledWithExactly('progress', 0));
+        assert.ok(setSpy.getCall(1).calledWithExactly('progress', 20));
+        assert.ok(setSpy.getCall(2).calledWithExactly('progress', 40));
+        assert.ok(setSpy.getCall(3).calledWithExactly('progress', 60));
+        assert.ok(setSpy.getCall(4).calledWithExactly('progress', 80));
+
         assert.ok(task.get('value'));
       });
     });
@@ -154,6 +163,7 @@ test('_workerTask', function(assert) {
 
   let fakeWorker = {postMessage(){}, addEventListener(){}};
   let postMessageSpy = this.spy(fakeWorker, 'postMessage');
+  let setSpy = this.spy(service, 'set');
   let addEventListenerSpy = this.spy(fakeWorker, 'addEventListener');
 
   let workerStub = this.stub(service, '_createWorker').returns(fakeWorker);
@@ -171,14 +181,23 @@ test('_workerTask', function(assert) {
       }), 'called postMessage with correct data');
       assert.equal(addEventListenerSpy.firstCall.args[0], 'message', 'sets up message listener');
       assert.equal(addEventListenerSpy.secondCall.args[0], 'error', 'sets up error listener');
+
+      // Call progress
+      addEventListenerSpy.firstCall.args[1]({
+        data: {
+          progress: 20
+        }
+      });
+
       // Call success
       addEventListenerSpy.firstCall.args[1]({
         data: {
-          myData: 'test'
+          result: 'test'
         }
       });
       return task.then(result =>{
-        assert.deepEqual(result, {myData: 'test'}, 'returns success from worker');
+        assert.deepEqual(result, 'test', 'returns success from worker');
+        assert.deepEqual(setSpy.firstCall.args, ['progress', 20]);
       });
     });
   });
