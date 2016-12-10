@@ -59,7 +59,7 @@ test('shouldUseWorker', function(assert) {
   assert.notOk(model.get('shouldUseWorker'), 'returns false for below threshold');
 });
 
-test('_chunkTask: it throttles task', function(assert) {
+test('_chunkTask: it throttles task and sets progress', function(assert) {
   let generators = [
     Ember.Object.create({fakerPath: 'myTest.foo'}),
     Ember.Object.create({fakerPath: 'myTest.bar'}),
@@ -70,6 +70,8 @@ test('_chunkTask: it throttles task', function(assert) {
     rows: 500
   });
 
+  let setSpy = this.spy(model, 'set');
+
   return run(() =>{
     let task = model.get('_chunkTask').perform();
     // Should throttle generation to ~ 200ms
@@ -78,6 +80,13 @@ test('_chunkTask: it throttles task', function(assert) {
       assert.ok(task.get('isRunning'));
       return timeout(200)
       .then(() =>{
+        assert.equal(setSpy.callCount, 5);
+        assert.ok(setSpy.getCall(0).calledWithExactly('progress', 0));
+        assert.ok(setSpy.getCall(1).calledWithExactly('progress', 20));
+        assert.ok(setSpy.getCall(2).calledWithExactly('progress', 40));
+        assert.ok(setSpy.getCall(3).calledWithExactly('progress', 60));
+        assert.ok(setSpy.getCall(4).calledWithExactly('progress', 80));
+
         assert.ok(task.get('value'));
       });
     });

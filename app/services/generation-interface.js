@@ -67,8 +67,10 @@ export default Ember.Service.extend({
     let rows = this.get('rows');
     let pathsLength = paths.length;
 
-    for (let i = rows; i--;) {
+    for (let i = 0; i < rows; i++) {
       if (i % 100 === 0) {
+        let progress = (i / rows) * 100;
+        this.set('progress', progress);
         yield timeout(20);
       }
 
