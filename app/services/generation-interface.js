@@ -153,6 +153,8 @@ export default Ember.Service.extend({
     }
   }),
 
+  isGenerating: computed.readOnly('generateTask.isRunning'),
+
   /**
    * Decides whether or not to use a worker
    * @type { Boolean }

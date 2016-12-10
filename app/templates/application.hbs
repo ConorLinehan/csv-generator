@@ -23,3 +23,13 @@
 </main>
 
 {{modal-target}}
+
+{{!-- Show progress modal --}}
+{{#if interface.isGenerating}}
+  {{log "entered"}}
+  {{to-elsewhere
+    named="modal"
+    send=(hash
+    body=(component "progress-modal" progress=interface.progress onOutsideClick=(action a)))
+  }}
+{{/if}}
