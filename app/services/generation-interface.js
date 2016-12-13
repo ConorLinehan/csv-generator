@@ -38,7 +38,7 @@ export default Ember.Service.extend({
     }
     let csvString = yield stringTask;
 
-    this._saveCSV(csvString);
+    // this._saveCSV(csvString);
   }).drop(),
 
   /*

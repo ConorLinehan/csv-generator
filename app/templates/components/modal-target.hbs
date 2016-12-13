@@ -8,7 +8,7 @@
       <div class="modal is-active">
         <div class="modal-background" onclick={{action (optional currentModal.onOutsideClick)}}></div>
         <div class="modal-card">
-          {{component modal.body}}
+          {{component currentModal.body}}
         </div>
       </div>
     {{/if}}

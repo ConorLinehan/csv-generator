@@ -1,1 +1,19 @@
-{{yield}}
+<div class="columns">
+  <div class="column has-text-centered">
+    {{#liquid-bind state use=progressAnimation as |progressState|}}
+      {{#if (eq state 'generating')}}
+        {{radial-progress progress=progress}}
+        <h3 class="title is-3">Generating Data</h3>
+      {{else}}
+        <div class="level">
+          <span class="icon is-large level-item animated-icons">
+            {{fa-icon "database"}}
+            {{fa-icon "arrow-right"}}
+            {{fa-icon "file-text-o"}}
+          </span>
+        </div>
+        <h3 class="title is-3">Converting to CSV</h3>
+      {{/if}}
+    {{/liquid-bind}}
+  </div>
+</div>

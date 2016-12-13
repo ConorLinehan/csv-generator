@@ -24,12 +24,12 @@
 
 {{modal-target}}
 
-{{!-- Show progress modal --}}
-{{#if interface.isGenerating}}
-  {{log "entered"}}
+{{!-- Show progress modal interface.isGenerating --}}
+{{#if true}}
   {{to-elsewhere
     named="modal"
     send=(hash
-    body=(component "progress-modal" progress=interface.progress onOutsideClick=(action a)))
+      body=(component "progress-modal")
+    )
   }}
 {{/if}}

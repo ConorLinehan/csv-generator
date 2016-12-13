@@ -1,0 +1,16 @@
+.radial-progress {
+  svg {
+    transform: rotate(-90deg);
+    width: "120";
+    height: "120";
+  }
+
+  circle.progress__meter {
+    stroke: $grey-light;
+  }
+
+  circle.progress__value {
+    stroke: $primary;
+    stroke-linecap: round;
+  }
+}
