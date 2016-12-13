@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { animate, Promise, stop } from 'liquid-fire';
 import { timeout, task } from 'ember-concurrency';
 
 const {
@@ -9,7 +8,6 @@ const {
 
 export default Ember.Component.extend({
   classNames: ['progress-modal'],
-  progressAnimation,
 
   interface: service('generation-interface'),
 
@@ -20,7 +18,7 @@ export default Ember.Component.extend({
 
   _demo: task(function *() {
     while (true) {
-      yield timeout(1200);
+      yield timeout(2000);
       if (this.get('state') === 'generating') {
         this.set('state', 'foo');
       } else {
@@ -30,7 +28,7 @@ export default Ember.Component.extend({
   }),
 
   progress: computed.oneWay('interface.progress'),
-  // state: 'foo'
+  // state: 'generating'
   state: computed('progress', {
     get() {
       if (this.get('progress') > 99) {
@@ -41,11 +39,3 @@ export default Ember.Component.extend({
     }
   }),
 });
-
-function progressAnimation(opts = {}) {
-  stop(this.oldElement);
-  return Promise.all([
-    animate(this.oldElement, { translateY: ['-30px', '-60px'], opacity: '0' }, opts),
-    animate(this.newElement, { translateY: ['0px', '-30px'] }, opts),
-  ]);
-}

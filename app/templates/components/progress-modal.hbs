@@ -1,7 +1,7 @@
 <div class="columns">
   <div class="column has-text-centered">
-    {{#liquid-bind state use=progressAnimation as |progressState|}}
-      {{#if (eq state 'generating')}}
+    {{#liquid-bind state use="toUp" as |progressState|}}
+      {{#if (eq progressState 'generating')}}
         {{radial-progress progress=progress}}
         <h3 class="title is-3">Generating Data</h3>
       {{else}}
