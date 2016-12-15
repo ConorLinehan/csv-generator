@@ -28,14 +28,14 @@ export default Ember.Component.extend({
   }),
 
   progress: computed.oneWay('interface.progress'),
-  // state: 'generating'
-  state: computed('progress', {
-    get() {
-      if (this.get('progress') > 99) {
-        return 'parsing';
-      } else {
-        return 'generating';
-      }
-    }
-  }),
+  state: 'foo'
+  // state: computed('progress', {
+  //   get() {
+  //     if (this.get('progress') > 99) {
+  //       return 'parsing';
+  //     } else {
+  //       return 'generating';
+  //     }
+  //   }
+  // }),
 });

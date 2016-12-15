@@ -11,6 +11,9 @@ main {
 // Framework
 @import 'bulma';
 
+// Mixins
+@import 'easings';
+
 // Components
 @import 'components/collection_item';
 @import 'components/progress_modal';
