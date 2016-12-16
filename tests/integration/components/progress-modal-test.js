@@ -1,25 +1,33 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
+import wait from 'ember-test-helpers/wait';
 
-moduleForComponent('progress-modal', 'Integration | Component | progress modal', {
-  integration: true
+const interfaceStub = Ember.Service.extend({
+  progress: 0
 });
 
-test('it renders', function(assert) {
+moduleForComponent('progress-modal', 'Integration | Component | progress modal', {
+  integration: true,
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  beforeEach() {
+    this.register('service:generation-interface', interfaceStub);
+    this.inject.service('generation-interface', { as: 'interface' });
+  }
+});
+
+test('it switches from generation to parsing animations', function(assert) {
+
+  let done = assert.async();
 
   this.render(hbs`{{progress-modal}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(this.$('h3.generating-text'), 'shows generating animation');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#progress-modal}}
-      template block text
-    {{/progress-modal}}
-  `);
+  this.set('interface.progress', 100);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  wait().then(() =>{
+    assert.ok(this.$('h3.parsing-text'), 'shows parsing animation');
+    done();
+  });
 });

@@ -3,7 +3,7 @@
     {{#liquid-bind state containerless=true use="progressAnimation" as |progressState|}}
       {{#if (eq progressState 'generating')}}
         {{radial-progress progress=progress}}
-        <h3 class="title is-3">Generating Data</h3>
+        <h3 class="title generating-text is-3">Generating Data</h3>
       {{else}}
         <div class="level is-mobile">
           <span class="icon is-large level-item animated-icons">
@@ -12,7 +12,7 @@
             {{fa-icon "file-text-o"}}
           </span>
         </div>
-        <h3 class="title is-3">Converting to CSV</h3>
+        <h3 class="title parsing-text is-3">Converting to CSV</h3>
       {{/if}}
     {{/liquid-bind}}
   </div>
