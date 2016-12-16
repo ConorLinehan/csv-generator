@@ -8,8 +8,12 @@ $animation-time: 1s;
   .animated-icons {
     color: $white;
 
+    i.circle {
+      color: $primary;
+    }
+
     // Arrow Icon
-    i:nth-child(2) {
+    i.arrow {
       position: relative;
       top: 20px;
       animation: Transfer $animation-time ease(out-cubic) infinite;

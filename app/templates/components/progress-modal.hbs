@@ -1,14 +1,14 @@
 <div class="columns">
   <div class="column has-text-centered">
-    {{#liquid-bind state use="toUp" as |progressState|}}
+    {{#liquid-bind state containerless=true use="progressAnimation" as |progressState|}}
       {{#if (eq progressState 'generating')}}
         {{radial-progress progress=progress}}
         <h3 class="title is-3">Generating Data</h3>
       {{else}}
         <div class="level is-mobile">
           <span class="icon is-large level-item animated-icons">
-            {{fa-icon "database"}}
-            {{fa-icon "arrow-right"}}
+            {{fa-icon "circle-o" class="circle"}}
+            {{fa-icon "arrow-right" class="arrow"}}
             {{fa-icon "file-text-o"}}
           </span>
         </div>
