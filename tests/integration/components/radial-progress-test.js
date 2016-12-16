@@ -5,21 +5,18 @@ moduleForComponent('radial-progress', 'Integration | Component | radial progress
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it shows progress', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  this.set('progress', 0);
+  this.render(hbs`{{radial-progress progress=progress}}`);
 
-  this.render(hbs`{{radial-progress}}`);
+  let progressDegree = () =>{
+    return this.$('circle:last').attr('stroke-dashoffset');
+  };
 
-  assert.equal(this.$().text().trim(), '');
+  assert.ok(progressDegree() > 339, 'shows zero progress');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#radial-progress}}
-      template block text
-    {{/radial-progress}}
-  `);
+  this.set('progress', 100);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(progressDegree(), 0, 'shows completed');
 });
