@@ -3,8 +3,8 @@ import { animate } from "liquid-fire";
 const PARSING_WAIT_TIME = 250;
 
 export default function () {
-  // Should only be a one way animation
-  if (this.oldValue === 'generating') {
+  // Should only be a one way animation on parsing
+  if (this.newValue) {
 
     return animate(this.oldElement, {
       translateY: '-100px',
@@ -20,7 +20,5 @@ export default function () {
         });
       });
     });
-  } else {
-    return this.lookup('wait').apply(this, 200 , { then: 'fade' });
   }
 }

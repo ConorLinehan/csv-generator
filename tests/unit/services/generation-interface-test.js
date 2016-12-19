@@ -1,5 +1,4 @@
-import { moduleFor } from 'ember-qunit';
-import test from 'ember-sinon-qunit/test-support/test';
+import { moduleFor, skip, test } from 'ember-qunit';
 import sinon from 'sinon';
 import faker from 'npm:faker';
 import Papa from 'npm:papaparse';
@@ -18,11 +17,15 @@ moduleFor('service:generation-interface', 'Unit | Service | generation-interface
       bar: ()=>{ return 'bar';},
       baz: ()=>{ return 'baz';}
     };
+
+    this.sandbox = sinon.sandbox.create();
   },
 
   afterEach() {
     faker['myTest'] = undefined;
     delete faker['myTest'];
+
+    this.sandbox.restore();
   }
 });
 
@@ -70,7 +73,7 @@ test('_chunkTask: it throttles task and sets progress', function(assert) {
     rows: 500
   });
 
-  let setSpy = this.spy(model, 'set');
+  let setSpy = this.sandbox.spy(model, 'set');
 
   return run(() =>{
     let task = model.get('_chunkTask').perform();
@@ -110,16 +113,13 @@ test('generatorPaths', function(assert) {
 });
 
 test('_chunkTask: it returns csvString', function(assert) {
-
-  let sandbox = sinon.sandbox.create();
-
-  let _firstSpy = sandbox.spy(faker.myTest, 'bar');
-  let _secondSpy = sandbox.spy(faker.myTest, 'baz');
+  let _firstSpy = this.sandbox.spy(faker.myTest, 'bar');
+  let _secondSpy = this.sandbox.spy(faker.myTest, 'baz');
   let generators = [
     Ember.Object.create({fakerPath: 'myTest.bar'}),
     Ember.Object.create({fakerPath: 'myTest.baz'}),
   ];
-  let unparseStub = sandbox.stub(Papa, 'unparse').returns('my-csv');
+  let unparseStub = this.sandbox.stub(Papa, 'unparse').returns('my-csv');
 
   let service = this.subject({
     generators,
@@ -145,8 +145,6 @@ test('_chunkTask: it returns csvString', function(assert) {
         let _unparseArray = unparseStub.secondCall.args[0];
         assert.equal(_unparseArray.length, 10, 'returns correct length for no headers');
         assert.deepEqual(_unparseArray[0], ['bar', 'baz']);
-
-        sandbox.restore();
       });
     });
   });
@@ -162,11 +160,11 @@ test('_workerTask', function(assert) {
   service.reopen({ headers: ['col1', 'col2'] });
 
   let fakeWorker = {postMessage(){}, addEventListener(){}};
-  let postMessageSpy = this.spy(fakeWorker, 'postMessage');
-  let setSpy = this.spy(service, 'set');
-  let addEventListenerSpy = this.spy(fakeWorker, 'addEventListener');
+  let postMessageSpy = this.sandbox.spy(fakeWorker, 'postMessage');
+  let setSpy = this.sandbox.spy(service, 'set');
+  let addEventListenerSpy = this.sandbox.spy(fakeWorker, 'addEventListener');
 
-  let workerStub = this.stub(service, '_createWorker').returns(fakeWorker);
+  let workerStub = this.sandbox.stub(service, '_createWorker').returns(fakeWorker);
 
   return run(() =>{
     let task = service.get('_workerTask').perform();
@@ -210,9 +208,9 @@ test('_workerTask: error', function(assert) {
   });
 
   let fakeWorker = {postMessage(){}, addEventListener(){}};
-  let addEventListenerSpy = this.spy(fakeWorker, 'addEventListener');
+  let addEventListenerSpy = this.sandbox.spy(fakeWorker, 'addEventListener');
 
-  this.stub(service, '_createWorker').returns(fakeWorker);
+  this.sandbox.stub(service, '_createWorker').returns(fakeWorker);
 
   return run(() =>{
     let task = service.get('_workerTask').perform();
@@ -230,9 +228,8 @@ test('_workerTask: error', function(assert) {
 test('generateTask', function(assert) {
   let service = this.subject();
 
-  let sandbox = sinon.sandbox.create();
-  let fileSaveStub  = sandbox.stub(fileSaver, 'saveAs');
-  let _saveCSVSpy = sandbox.spy(service, '_saveCSV');
+  let fileSaveStub  = this.sandbox.stub(fileSaver, 'saveAs');
+  let _saveCSVSpy = this.sandbox.spy(service, '_saveCSV');
 
   let generators = [
     Ember.Object.create({name: 'col1', fakerPath: 'random.number'}),
@@ -261,8 +258,6 @@ test('generateTask', function(assert) {
         assert.equal(data.length, 502, 'generates correct number of rows');
 
         assert.ok(fileSaveStub.calledTwice, 'called save twice');
-
-        sandbox.restore();
       });
     });
   });
@@ -272,4 +267,23 @@ test('it setups worker on init', function(assert) {
   let service = this.subject();
 
   assert.ok(service.get('cachedWorker'));
+});
+
+// TODO: Will probably have to stub the task
+skip('it shows generation stages', function(assert) {
+  let service = this.subject();
+
+  this.sandbox.stub(fileSaver, 'saveAs');
+
+  run(() =>{
+    assert.notOk(service.get('isParsing'));
+
+    service.get('generateTask').perform([], 10, false);
+    service.set('progress', 50);
+
+    assert.notOk(service.get('isParsing'));
+
+    service.set('progress', 99.5);
+    assert.ok(service.get('isParsing'));
+  });
 });

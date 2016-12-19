@@ -30,6 +30,8 @@ export default Ember.Service.extend({
       shouldIncludeHeaders: shouldIncludeHeaders
     });
 
+    this.set('progress', 0);
+
     let stringTask;
     if (this.get('shouldUseWorker')) {
       stringTask = this.get('_workerTask').perform();
@@ -38,7 +40,7 @@ export default Ember.Service.extend({
     }
     let csvString = yield stringTask;
 
-    // this._saveCSV(csvString);
+    this._saveCSV(csvString);
   }).drop(),
 
   /*
@@ -168,5 +170,8 @@ export default Ember.Service.extend({
         return false;
       }
     }
-  })
+  }),
+
+  _finishedGenerating: computed.gt('progress', 99),
+  isParsing: computed.and('isGenerating', '_finishedGenerating')
 });
