@@ -24,8 +24,7 @@
 
 {{modal-target}}
 
-{{!-- Show progress modal interface.isGenerating --}}
-{{#if interface.isGenerating}}
+{{#if interface.shouldShowProgress}}
   {{to-elsewhere
     named="modal"
     send=(hash

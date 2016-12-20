@@ -12,6 +12,8 @@ const {
 } = Ember;
 
 const SHOULD_USE_WORKERS_NUMBER = 500;
+const SHOULD_SHOW_PROGRESS_NUMBER = 10000;
+const IS_PARSING_PERCENT = 99;
 
 export default Ember.Service.extend({
 
@@ -172,6 +174,13 @@ export default Ember.Service.extend({
     }
   }),
 
-  _finishedGenerating: computed.gt('progress', 99),
+  /**
+   * These computeds are used to decide whether to show progress indicators
+   */
+
+  _isShowProgressRows: computed.gt('rows', SHOULD_SHOW_PROGRESS_NUMBER),
+  shouldShowProgress: computed.and('isGenerating', '_isShowProgressRows'),
+
+  _finishedGenerating: computed.gt('progress', IS_PARSING_PERCENT),
   isParsing: computed.and('isGenerating', '_finishedGenerating')
 });
