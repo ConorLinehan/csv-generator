@@ -10,15 +10,8 @@ export default Ember.Component.extend({
 
   interface: service('generation-interface'),
 
+  // CPS
   progress: computed.oneWay('interface.progress'),
   isParsing: computed.readOnly('interface.isParsing'),
-  state: computed('progress', {
-    get() {
-      if (this.get('progress') > 99) {
-        return 'parsing';
-      } else {
-        return 'generating';
-      }
-    }
-  }),
+
 });
