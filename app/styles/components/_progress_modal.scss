@@ -1,0 +1,38 @@
+$animation-time: 1s;
+
+.progress-modal {
+  h3 {
+    color: $white;
+  }
+
+  .animated-icons {
+    color: $white;
+
+    i.circle {
+      color: $primary;
+    }
+
+    // Arrow Icon
+    i.arrow {
+      position: relative;
+      top: 20px;
+      animation: Transfer $animation-time ease(out-cubic) infinite;
+      font-size: 20px;
+    }
+  }
+}
+
+@keyframes Transfer {
+  from {
+    transform: translateX(-1em);
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(1em);
+    opacity: 0.1;
+  }
+}

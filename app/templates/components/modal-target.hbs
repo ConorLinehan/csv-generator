@@ -1,10 +1,14 @@
 {{#from-elsewhere name="modal" as |modal|}}
-  {{#liquid-bind modal containerless="true" use=modalAnimation as |currentModal|}}
+  {{#liquid-bind
+    modal
+    containerless="true"
+    use=(if modal.transition modal.transition "defaultModalTransition")
+    as |currentModal|}}
     {{#if currentModal}}
       <div class="modal is-active">
-        <div class="modal-background" onclick={{action currentModal.onOutsideClick}}></div>
+        <div class="modal-background" onclick={{action (optional currentModal.onOutsideClick)}}></div>
         <div class="modal-card">
-          {{component modal.body}}
+          {{component currentModal.body}}
         </div>
       </div>
     {{/if}}

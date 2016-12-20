@@ -23,3 +23,12 @@
 </main>
 
 {{modal-target}}
+
+{{#if interface.shouldShowProgress}}
+  {{to-elsewhere
+    named="modal"
+    send=(hash
+      body=(component "progress-modal")
+    )
+  }}
+{{/if}}

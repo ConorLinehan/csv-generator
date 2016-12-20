@@ -1,0 +1,17 @@
+<div class="columns">
+  <div class="column has-text-centered">
+    {{#liquid-if isParsing containerless=true use="progressAnimation"}}
+      <div class="level is-mobile">
+        <span class="icon is-large level-item animated-icons">
+          {{fa-icon "circle-o" class="circle"}}
+          {{fa-icon "arrow-right" class="arrow"}}
+          {{fa-icon "file-text-o"}}
+        </span>
+      </div>
+      <h3 class="title parsing-text is-3">Converting to CSV</h3>
+    {{else}}
+      {{radial-progress progress=progress}}
+      <h3 class="title generating-text is-3">Generating Data</h3>
+    {{/liquid-if}}
+  </div>
+</div>

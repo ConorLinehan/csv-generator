@@ -12,6 +12,8 @@ const {
 } = Ember;
 
 const SHOULD_USE_WORKERS_NUMBER = 500;
+const SHOULD_SHOW_PROGRESS_NUMBER = 10000;
+const IS_PARSING_PERCENT = 99;
 
 export default Ember.Service.extend({
 
@@ -29,6 +31,8 @@ export default Ember.Service.extend({
       rows: rows,
       shouldIncludeHeaders: shouldIncludeHeaders
     });
+
+    this.set('progress', 0);
 
     let stringTask;
     if (this.get('shouldUseWorker')) {
@@ -153,6 +157,8 @@ export default Ember.Service.extend({
     }
   }),
 
+  isGenerating: computed.readOnly('generateTask.isRunning'),
+
   /**
    * Decides whether or not to use a worker
    * @type { Boolean }
@@ -166,5 +172,15 @@ export default Ember.Service.extend({
         return false;
       }
     }
-  })
+  }),
+
+  /**
+   * These computeds are used to decide whether to show progress indicators
+   */
+
+  _isShowProgressRows: computed.gt('rows', SHOULD_SHOW_PROGRESS_NUMBER),
+  shouldShowProgress: computed.and('isGenerating', '_isShowProgressRows'),
+
+  _finishedGenerating: computed.gt('progress', IS_PARSING_PERCENT),
+  isParsing: computed.and('isGenerating', '_finishedGenerating')
 });
