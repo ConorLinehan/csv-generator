@@ -19,7 +19,7 @@
     {{#each model as |collection|}}
       <div class="column is-one-quarter">
         {{#link-to "collections.show" collection.id class="box collection-item"}}
-          <a class="icon delete-collection" {{action (action "deleteCollection") collection}}>
+          <a class="icon is-danger delete-collection" {{action (action "deleteCollection") collection}}>
             {{fa-icon "remove"}}
           </a>
           <h1 class="title">{{collection.name}}</h1>

@@ -15,6 +15,10 @@ main {
 @import 'easings';
 
 // Components
-@import 'components/collection_item';
-@import 'components/progress_modal';
-@import 'components/radial_progress';
+@import 'components/collection-item';
+@import 'components/progress-modal';
+@import 'components/radial-progress';
+@import 'components/generator-table';
+
+// Global-misc
+@import 'misc';

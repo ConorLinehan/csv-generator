@@ -1,0 +1,9 @@
+a.is-danger {
+  i {
+    color: $danger;
+
+    &:hover {
+      color: $black;
+    }
+  }
+}

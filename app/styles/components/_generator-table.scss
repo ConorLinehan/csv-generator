@@ -1,0 +1,61 @@
+table.generator-table {
+  $darkend-primary: darken($primary, 10);
+
+  @keyframes go-to-foreground {
+    from {
+      font-size: 14px;
+    }
+
+    to {
+      font-size: 16px;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      transform: scale(0);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
+
+  // Stops jumpiness from input focus animation
+  td.name {
+    width: 50%;
+  }
+
+  tr:hover {
+    background-color: $white;
+  }
+
+  td {
+    i.edit.fa {
+      visibility: hidden;
+      color: $darkend-primary;
+    }
+
+    &:hover {
+      i.edit {
+        animation: scale-in 0.1s linear forwards;
+        visibility: visible;
+      }
+    }
+
+    & input {
+      display: table-cell;
+      outline: none;
+      border: 0;
+      background: none;
+      width: 100%;
+      height: 100%;
+      font-size: 14px;
+
+      &:focus {
+        animation: go-to-foreground 0.1s linear forwards;
+        color: $darkend-primary;
+      }
+    }
+  }
+}

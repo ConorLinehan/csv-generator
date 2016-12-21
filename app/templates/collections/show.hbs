@@ -1,66 +1,53 @@
-
-<div class="box">
-  <div class="columns">
-    <div class="column">
-      <p class="control row-count has-addons">
-        {{input type="number" value=rowCount}}
-        <a class="button is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
-         {{action 'generate'}}
-         >
-          Generate
-        </a>
-      </p>
-    </div>
-  </div>
-  <div class="columns is-mobile">
-    {{!-- Fake Columns --}}
-    <div class="column">
-      <div class="box">
-        <ul>
-          <li>
-            <div class="columns is-mobile">
-              <div class="column">
-                <span class="subtitle is-5">Column Name</span>
-              </div>
-              <div class="column">
-                <span class="subtitle is-5">Type</span>
-                <a class="add-generator button is-primary is-pulled-right" {{action 'addGenerator'}}>
-                  +
-                </a>
-              </div>
-            </div>
-          </li>
-          {{#each generators as |generator|}}
-            <li class="generator">
-              <div class="columns is-mobile level">
-                <div class="column">
-                  <input
-                  type="text"
-                  name="name"
-                  value={{generator.name}}
-                  class="input name"
-                  oninput={{action (pipe (action (mut generator.name)) (perform saveGeneratorTask generator)) value="target.value"}}
-                  >
-                </div>
-                <div class="column">
-                  <a class="button change-type" {{action (action (mut activeGeneratorId)) generator.id}}>
-                    {{generator.generatorName}}
-                    <em>{{generator.generatorCategory}}</em>
-                  </a>
-                </div>
-                <div class="column is-1">
-                  <a class="button remove-generator is-danger is-pulled-right" {{action (action 'removeGenerator') generator}}>
-                    x
-                  </a>
-                </div>
-              </div>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
-    </div>
+<div class="columns">
+  <div class="column">
+    <p class="control row-count has-addons">
+      {{input type="number" value=rowCount}}
+      <a class="button is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
+       {{action 'generate'}}
+       >
+        Generate
+      </a>
+    </p>
   </div>
 </div>
+
+<table class="table is-bordered generator-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type <em>(namespace type)</em></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#each generators as |generator|}}
+      <tr>
+        <td class="control name has-icon has-icon-right">
+          <input
+          type="text"
+          name="name"
+          value={{generator.name}}
+          class="name"
+          oninput={{action (pipe (action (mut generator.name)) (perform saveGeneratorTask generator)) value="target.value"}}
+          >
+          {{fa-icon "pencil" class="edit"}}
+        </td>
+        <td>
+          <a class="change-type" {{action (action (mut activeGeneratorId)) generator.id}}>
+            {{generator.generatorName}}
+            {{generator.generatorCategory}}
+          </a>
+        </td>
+        <td class="is-icon">
+          <a class="remove-generator is-danger" {{action (action "removeGenerator") generator}}>
+            {{fa-icon "remove"}}
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
 
 
 {{#if activeGeneratorId}}
