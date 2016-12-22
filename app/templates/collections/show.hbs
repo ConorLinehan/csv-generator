@@ -1,54 +1,92 @@
-<div class="columns">
-  <div class="column">
-    <p class="control row-count has-addons">
-      {{input type="number" value=rowCount}}
-      <a class="button is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
-       {{action 'generate'}}
-       >
-        Generate
-      </a>
-    </p>
+<div class="section">
+  <div class="container">
+    {{!-- Generate Interface --}}
+    <div class="control generate-controls">
+      <div class="control row-count">
+        {{input type="number" value=rowCount}}
+      </div>
+    </div>
+    <div class="control is-grouped level">
+      <div class="control">
+        <label class="checkbox">
+        {{input type="checkbox"}}
+        Include Headers
+        </label>
+      </div>
+      <div class="control">
+        <a class="button is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
+         {{action 'generate'}}
+         >
+          Generate
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
-<table class="table is-bordered generator-table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type <em>(namespace type)</em></th>
-      <th></th>
-    </tr>
-  </thead>
+<div class="section">
+  <div class="container">
 
-  <tbody>
-    {{#each generators as |generator|}}
-      <tr>
-        <td class="control name has-icon has-icon-right">
-          <input
-          type="text"
-          name="name"
-          value={{generator.name}}
-          class="name"
-          oninput={{action (pipe (action (mut generator.name)) (perform saveGeneratorTask generator)) value="target.value"}}
-          >
-          {{fa-icon "pencil" class="edit"}}
-        </td>
-        <td>
-          <a class="change-type" {{action (action (mut activeGeneratorId)) generator.id}}>
-            {{generator.generatorName}}
-            {{generator.generatorCategory}}
-          </a>
-        </td>
-        <td class="is-icon">
-          <a class="remove-generator is-danger" {{action (action "removeGenerator") generator}}>
-            {{fa-icon "remove"}}
-          </a>
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h3 class="title is-3">{{collection.name}}</h3>
+        </div>
+        <div class="level-item">
+          <button class="button">
+            New
+            <span class="icon is-small">
+              {{fa-icon "plus"}}
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="level-right">
+        {{!-- <div class="level-item">
+          <button class="button">New</button>
+        </div> --}}
+      </div>
+    </div>
 
+    <table class="table is-bordered generator-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type <em>(namespace type)</em></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each generators as |generator|}}
+          <tr>
+            <td class="control name has-icon has-icon-right">
+              <input
+              type="text"
+              name="name"
+              value={{generator.name}}
+              class="name"
+              oninput={{action (pipe (action (mut generator.name)) (perform saveGeneratorTask generator)) value="target.value"}}
+              >
+              {{fa-icon "pencil" class="edit"}}
+            </td>
+            <td>
+              <a class="change-type" {{action (action (mut activeGeneratorId)) generator.id}}>
+                {{generator.generatorName}}
+                {{generator.generatorCategory}}
+              </a>
+            </td>
+            <td class="is-icon">
+              <a class="remove-generator is-danger" {{action (action "removeGenerator") generator}}>
+                {{fa-icon "remove"}}
+              </a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
 
 {{#if activeGeneratorId}}
   {{to-elsewhere

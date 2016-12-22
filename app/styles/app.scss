@@ -1,13 +1,3 @@
-.modal-card-body {
-  padding: 20px;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-main {
-  height: 100vh;
-}
-
 // Framework
 @import 'bulma';
 
@@ -19,6 +9,9 @@ main {
 @import 'components/progress-modal';
 @import 'components/radial-progress';
 @import 'components/generator-table';
+
+// Pages
+@import "generators";
 
 // Global-misc
 @import 'misc';
