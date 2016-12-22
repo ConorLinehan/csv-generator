@@ -1,7 +1,7 @@
 <div class="section">
-  <div class="container">
+  <div class="container generate-controls">
     {{!-- Generate Interface --}}
-    <div class="control generate-controls">
+    <div class="control">
       <div class="control row-count">
         {{input type="number" value=rowCount}}
       </div>
@@ -14,7 +14,7 @@
         </label>
       </div>
       <div class="control">
-        <a class="button is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
+        <a class="button generate is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
          {{action 'generate'}}
          >
           Generate
@@ -33,18 +33,13 @@
           <h3 class="title is-3">{{collection.name}}</h3>
         </div>
         <div class="level-item">
-          <button class="button">
+          <button class="button new-generator" {{action "addGenerator"}}>
             New
             <span class="icon is-small">
               {{fa-icon "plus"}}
             </span>
           </button>
         </div>
-      </div>
-      <div class="level-right">
-        {{!-- <div class="level-item">
-          <button class="button">New</button>
-        </div> --}}
       </div>
     </div>
 
@@ -59,11 +54,10 @@
 
       <tbody>
         {{#each generators as |generator|}}
-          <tr>
+          <tr class="generator">
             <td class="control name has-icon has-icon-right">
               <input
               type="text"
-              name="name"
               value={{generator.name}}
               class="name"
               oninput={{action (pipe (action (mut generator.name)) (perform saveGeneratorTask generator)) value="target.value"}}
