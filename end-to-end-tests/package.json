@@ -1,0 +1,23 @@
+{
+  "name": "end-to-end-tests",
+  "version": "0.0.0",
+  "description": "Runs end to end tests",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "co-mocha": "^1.1.3",
+    "fast-csv": "^2.3.0",
+    "mocha": "^3.2.0",
+    "nightmare": "^2.8.1",
+    "nightmare-inline-download": "^0.2.2",
+    "rsvp": "^3.3.3"
+  }
+}

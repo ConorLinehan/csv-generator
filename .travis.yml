@@ -1,34 +1,32 @@
----
 language: node_js
 node_js:
-  - "4"
-
+- '4'
 dist: trusty
 sudo: required
-
 addons:
   apt:
     sources:
     - google-chrome
     packages:
     - google-chrome-stable
-
-
 cache:
   directories:
-    - node_modules
-
-
+  - node_modules
 before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - "npm config set spin false"
-  - npm install -g bower
-  - bower --version
-
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- npm config set spin false
+- npm install -g bower
+- bower --version
 install:
-  - npm install
-  - bower install
-
+- npm install
+- bower install
 script:
-  - npm test
+- npm test
+- travis_scripts/end-to-end-test.sh
+after_success:
+- travis_scripts/deploy.sh
+
+env:
+  global:
+    secure: P9n1oaoROk6VYIUEYiQfzr37E2AD8xP6MW7FasRfp/hJxq/uNuF82eABdN+twwJm4rEB3bP3g1d7iBe42AJpth5uriu5vvF9eIDQGEWjsn83goW3uJHgVjAjHnvXv5g57KVEZaFk8AF0VMdIefTaKRaAM8IxUWh9o+Oo6JIjZzz1d+IvrZhlIHa9hMiVYlmiV94YTPUVf2Xq97C6KP+MZqYD/r5teFGiFOA6tnjyYHd5UhU5LQwZxFnlb8xxhY/J5GflyF/ehOUJK9g3cKgfvB6qniFAT2TvZsWwBiyn7ZDLlJkUAHLPbxuP7YILDBhLhch1FDeN2YtJIM902IQt3HTqmhxWStpRdHlB9fBHcFHFX1t7qXLv/nlXtiA2ru4HyGhAJc1rvV1YHLiqikfohgjAFGvKQIqFUtV7Lu4ikW2WiZkla6/QAsAItmzC+nfDRuJLBxJtFANbTGP5s6yslrqxNu0G2ESqqzMgakjKU5XsP/+Fw220xnqPRhBsEJ8WmdhdGR0thV2+7RCjG+xHPMCS4tU6AJ425+rkcliqPlr2vJrHs//o2ZQ3XnHEEzeKqUgr/oEgoIZxuIBDU/dsmzPnLPxNfiTk+okN8DuDnpz1E8zReKNpYpYAD83EaogHejKokRAjwifKp10bBGMEGt7NmPF+SORnULZUy/EVJDc=
