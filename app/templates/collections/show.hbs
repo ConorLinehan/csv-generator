@@ -1,24 +1,24 @@
 <div class="section">
   <div class="container generate-controls">
-    {{!-- Generate Interface --}}
-    <div class="control">
-      <div class="control row-count">
-        {{input type="number" value=rowCount}}
+    <div class="columns level">
+      <div class="column is-3">
+        <label class="label">Rows</label>
+        <div class="control row-count">
+          {{input type="number" value=rowCount}}
+        </div>
+
+        <div class="control">
+          Include Headers
+          {{input type="checkbox"}}
+        </div>
       </div>
-    </div>
-    <div class="control is-grouped level">
-      <div class="control">
-        <label class="checkbox">
-        {{input type="checkbox"}}
-        Include Headers
-        </label>
-      </div>
-      <div class="control">
-        <a class="button generate is-primary {{if interface.generateTask.isRunning 'is-loading'}}"
-         {{action 'generate'}}
-         >
-          Generate
-        </a>
+      <div class="column">
+        <div class="control">
+          <button {{action 'generate'}}
+          class="button is-primary is-large {{if interface.generateTask.isRunning 'is-loading'}}">
+            Generate
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -33,12 +33,12 @@
           <h3 class="title is-3">{{collection.name}}</h3>
         </div>
         <div class="level-item">
-          <button class="button new-generator" {{action "addGenerator"}}>
+          <a class="button new-generator" {{action "addGenerator"}}>
             New
             <span class="icon is-small">
               {{fa-icon "plus"}}
             </span>
-          </button>
+          </a>
         </div>
       </div>
     </div>
