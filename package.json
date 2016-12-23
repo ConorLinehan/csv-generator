@@ -1,6 +1,6 @@
 {
   "name": "csv-generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Small description for csv-generator goes here",
   "private": true,
   "directories": {
