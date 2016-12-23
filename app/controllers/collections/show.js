@@ -48,7 +48,8 @@ export default Ember.Controller.extend({
     generate() {
       let generators = this.get('generators');
       let rows = this.get('rowCount');
-      this.get('interface.generateTask').perform(generators, rows, true);
+      let includeHeaders = this.get('includeHeaders');
+      this.get('interface.generateTask').perform(generators, rows, includeHeaders);
     }
   }
 });
