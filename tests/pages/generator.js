@@ -33,7 +33,7 @@ export default create({
 
   generatorModal,
 
-  addGenerator: clickable('button.new-generator'),
+  addGenerator: clickable('a.new-generator'),
   generators: collection({
     itemScope: 'tr.generator',
     item: {
@@ -45,7 +45,7 @@ export default create({
   createControl: {
     scope: '.generate-controls',
     fillInput: fillable('.row-count input'),
-    create: clickable('a.generate'),
-    isLoading: hasClass('is-loading', 'a.generate')
+    create: clickable('button.generate'),
+    isLoading: hasClass('is-loading', 'button.generate')
   }
 });
