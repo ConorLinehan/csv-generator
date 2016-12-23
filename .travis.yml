@@ -24,7 +24,8 @@ install:
 script:
 - npm test
 - travis_scripts/end-to-end-test.sh
-- cd $TRAVIS_BUILD_DIR
+after_success:
+- travis_scripts/deploy.sh
 
 env:
   global:

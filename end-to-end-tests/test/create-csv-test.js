@@ -54,7 +54,7 @@ describe('Downloads CSV File', function() {
     .download('./csv_dump/non_worker.csv');
 
     let result = yield parseCSV('./csv_dump/non_worker.csv');
-    assert.lengthOf(result, 102, 'creates csv');
+    assert.lengthOf(result, 101, 'creates csv');
   });
 
   it('can create csv [WORKER]', function*() {
