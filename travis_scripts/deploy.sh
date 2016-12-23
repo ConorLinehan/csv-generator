@@ -1,4 +1,4 @@
-set -e
+set -ev
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
   exit 0
