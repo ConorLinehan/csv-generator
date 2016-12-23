@@ -17,6 +17,7 @@
     "fast-csv": "^2.3.0",
     "mocha": "^3.2.0",
     "nightmare": "^2.8.1",
+    "nightmare-inline-download": "^0.2.2",
     "rsvp": "^3.3.3"
   }
 }
