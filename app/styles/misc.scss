@@ -1,0 +1,20 @@
+a.is-danger {
+  i {
+    color: $danger;
+
+    &:hover {
+      color: $black;
+    }
+  }
+}
+
+.modal-card-body {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+main {
+  background-color: $white;
+  height: 100vh;
+}

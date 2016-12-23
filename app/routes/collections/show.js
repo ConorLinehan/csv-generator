@@ -5,5 +5,6 @@ export default Ember.Route.extend({
   setupController(controller) {
     this._super(...arguments);
     controller.set('rowCount', 100);
+    controller.set('includeHeaders', true);
   }
 });

@@ -33,19 +33,19 @@ export default create({
 
   generatorModal,
 
-  addGenerator: clickable('a.add-generator'),
+  addGenerator: clickable('a.new-generator'),
   generators: collection({
-    itemScope: 'li.generator',
+    itemScope: 'tr.generator',
     item: {
       remove: clickable('a.remove-generator'),
       triggerPathChange: clickable('a.change-type'),
-      name: fillable('input.name')
+      name: fillable('.name input')
     }
   }),
   createControl: {
-    scope: 'p.row-count',
-    fillInput: fillable('input'),
-    create: clickable('a'),
-    isLoading: hasClass('is-loading', 'a')
+    scope: '.generate-controls',
+    fillInput: fillable('.row-count input'),
+    create: clickable('button.generate'),
+    isLoading: hasClass('is-loading', 'button.generate')
   }
 });
